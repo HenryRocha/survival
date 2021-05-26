@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class hr_PlayerAiming : MonoBehaviour
 {
     [Header("Aim Settings")]
     [SerializeField] private GameObject aimCamera;
+    [SerializeField] private Rig aimRig;
+    [SerializeField] private float aimTime;
 
     [Header("Aim Flags")]
     public bool isAiming = false;
@@ -13,6 +16,7 @@ public class hr_PlayerAiming : MonoBehaviour
 
     private hr_RaycastWeapon weapon;
     private bool firingState = false;
+    private bool aimState = false;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -20,6 +24,7 @@ public class hr_PlayerAiming : MonoBehaviour
     void Awake()
     {
         weapon = GetComponentInChildren<hr_RaycastWeapon>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void HandleAllAiming()
@@ -32,30 +37,43 @@ public class hr_PlayerAiming : MonoBehaviour
     {
         if (isAiming)
         {
-            aimCamera.SetActive(true);
+            aimRig.weight = Mathf.Lerp(aimRig.weight, 1.0f, Time.deltaTime * aimTime);
+            if (!aimState)
+            {
+                aimState = true;
+                aimCamera.SetActive(true);
+            }
         }
         else
         {
-            aimCamera.SetActive(false);
+            aimRig.weight = Mathf.Lerp(aimRig.weight, 0.0f, Time.deltaTime * aimTime);
+            if (aimState)
+            {
+                aimState = false;
+                aimCamera.SetActive(false);
+            }
         }
     }
 
     private void HandleFiring()
     {
-        if (isFiring)
+        if (isAiming)
         {
-            if (!firingState)
+            if (isFiring)
             {
-                firingState = true;
-                weapon.StartFiring();
+                if (!firingState)
+                {
+                    firingState = true;
+                    weapon.StartFiring();
+                }
             }
-        }
-        else
-        {
-            if (firingState)
+            else
             {
-                firingState = false;
-                weapon.StopFiring();
+                if (firingState)
+                {
+                    firingState = false;
+                    weapon.StopFiring();
+                }
             }
         }
     }

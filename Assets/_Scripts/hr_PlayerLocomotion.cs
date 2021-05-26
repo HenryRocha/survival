@@ -18,6 +18,7 @@ public class hr_PlayerLocomotion : MonoBehaviour
     [SerializeField] private float blendTime = 0.2f;
 
     private hr_InputManager inputManager;
+    private hr_PlayerAiming playerAiming;
     private CharacterController characterController;
     private Animator animator;
     private Transform mainCamera;
@@ -31,6 +32,7 @@ public class hr_PlayerLocomotion : MonoBehaviour
     private void Awake()
     {
         inputManager = GetComponent<hr_InputManager>();
+        playerAiming = GetComponent<hr_PlayerAiming>();
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         mainCamera = Camera.main.transform;
@@ -73,13 +75,28 @@ public class hr_PlayerLocomotion : MonoBehaviour
     private void HandleRotation()
     {
         Vector3 targetDirection = Vector3.zero;
+        Quaternion playerRotation;
 
-        targetDirection = mainCamera.forward * inputManager.moveAmount.y + mainCamera.right * inputManager.moveAmount.x;
-        targetDirection.Normalize();
-        targetDirection.y = 0;
+        if (!playerAiming.isAiming)
+        {
+            targetDirection = mainCamera.forward * inputManager.moveAmount.y + mainCamera.right * inputManager.moveAmount.x;
+            targetDirection.Normalize();
+            targetDirection.y = 0;
 
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            if (targetDirection == Vector3.zero)
+                targetDirection = transform.forward;
+
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            // float yawCamera = mainCamera.rotation.eulerAngles.y;
+            // playerRotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            float yawCamera = mainCamera.rotation.eulerAngles.y;
+            playerRotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), rotationSpeed * Time.deltaTime);
+        }
 
         transform.rotation = playerRotation;
     }

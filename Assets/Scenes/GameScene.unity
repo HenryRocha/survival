@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Effectors: []
 --- !u!4 &578898232
 Transform:
@@ -1114,7 +1114,7 @@ MonoBehaviour:
   m_RigLayers:
   - rig: {fileID: 178290011}
     active: 1
-  - rig: {fileID: 1339175699}
+  - rig: {fileID: 578898231}
     active: 1
   - rig: {fileID: 228508084}
     active: 1
@@ -1149,7 +1149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWalking: 0
   isSprinting: 0
-  isGrouded: 0
   isJumping: 0
   rotationSpeed: 10
   jumpHeight: 3
@@ -36196,7 +36195,7 @@ MonoBehaviour:
   m_VerticalAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 80
+    m_MaxSpeed: 100
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse Y
@@ -36220,7 +36219,7 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 80
+    m_MaxSpeed: 150
     m_AccelTime: 0
     m_DecelTime: 0
     m_InputAxisName: Mouse X
@@ -36849,7 +36848,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 11
+  m_Priority: 200
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 6515712193062129784}
@@ -41943,6 +41942,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimCamera: {fileID: 1504491425}
+  aimRig: {fileID: 578898231}
+  aimTime: 5
   isAiming: 0
   isFiring: 0
 --- !u!4 &1031632034816332252
