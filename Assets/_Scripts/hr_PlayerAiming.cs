@@ -13,9 +13,9 @@ public class hr_PlayerAiming : MonoBehaviour
     [Header("Aim Flags")]
     public bool isAiming = false;
     public bool isFiring = false;
+    public bool firingState = false;
 
     private hr_RaycastWeapon weapon;
-    private bool firingState = false;
     private bool aimState = false;
 
     /// <summary>
@@ -38,6 +38,7 @@ public class hr_PlayerAiming : MonoBehaviour
         if (isAiming)
         {
             aimRig.weight = Mathf.Lerp(aimRig.weight, 1.0f, Time.deltaTime * aimTime);
+
             if (!aimState)
             {
                 aimState = true;
