@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class hr_PlayerStealth : MonoBehaviour
 {
-    [SerializeField] private float soundIntensity;
+    [Header("Sound Intensity")]
     [SerializeField] private LayerMask zombieLayer;
+    [SerializeField] private float shootSoundIntensity = 12.0f;
     [SerializeField] private float baseStealthProfile = 1.5f;
+    [SerializeField] private float sprintSoundIntensity = 3f;
+    [SerializeField] private float walkSoundIntensity = 2f;
 
     private hr_PlayerLocomotion playerLocomotion;
     private hr_PlayerAiming playerAiming;
@@ -33,14 +36,14 @@ public class hr_PlayerStealth : MonoBehaviour
     }
 
     /// <summary>
-    /// Creates a sphere around the player, with the radius being the soundIntensity.
+    /// Creates a sphere around the player, with the radius being the shootSoundIntensity.
     /// All the zombies inside this sphere will become aware of the player.
     /// </summary>
     private void AlertNearbyZombies()
     {
         if (playerAiming.firingState)
         {
-            Collider[] zombies = Physics.OverlapSphere(transform.position, soundIntensity, zombieLayer);
+            Collider[] zombies = Physics.OverlapSphere(transform.position, shootSoundIntensity, zombieLayer);
 
             foreach (var zombie in zombies)
             {
@@ -52,7 +55,7 @@ public class hr_PlayerStealth : MonoBehaviour
     /// <summary>
     /// Returns the stealth profile of the player.
     /// </summary>
-    private int GetPlayerStealthProfile()
+    private float GetPlayerStealthProfile()
     {
         if (playerLocomotion.isWalking)
         {

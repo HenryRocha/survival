@@ -8,6 +8,7 @@ public class hr_ZombieManager : MonoBehaviour
     [SerializeField] private bool isAware = false;
     [SerializeField] private float fov = 120.0f;
     [SerializeField] private float viewDistance = 10.0f;
+    [SerializeField] private LayerMask allMasks;
 
     private GameObject player;
     private NavMeshAgent agent;
@@ -47,7 +48,14 @@ public class hr_ZombieManager : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, player.transform.position) < viewDistance)
             {
-                OnAware();
+                RaycastHit hit;
+                if (Physics.Linecast(transform.position, player.transform.position, out hit, allMasks))
+                {
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        OnAware();
+                    }
+                }
             }
         }
     }
