@@ -9,11 +9,12 @@ public class hr_ZombieManager : MonoBehaviour
     [SerializeField] private float fov = 120.0f;
     [SerializeField] private float viewDistance = 10.0f;
     [SerializeField] private LayerMask allMasks;
+    [SerializeField] private int health = 100;
 
     private GameObject player;
     private NavMeshAgent agent;
     private Renderer renderer;
-    
+
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -65,5 +66,15 @@ public class hr_ZombieManager : MonoBehaviour
     {
         isAware = true;
         FindObjectOfType<AudioManager>().PlayScaredShout();
+    }
+
+    public void TakeDamage()
+    {
+        health -= 10;
+
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

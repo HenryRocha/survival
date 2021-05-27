@@ -6,9 +6,13 @@ public class hr_RaycastWeapon : MonoBehaviour
 {
     public bool isFiring = false;
 
+    [Header("Effects")]
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private ParticleSystem hitEffect;
+    [SerializeField] private ParticleSystem fleshEffect;
     [SerializeField] private TrailRenderer tracerEffect;
+
+    [Header("Settings")]
     [SerializeField] private Transform raycastOrigin;
 
     private Ray ray;
@@ -27,11 +31,20 @@ public class hr_RaycastWeapon : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log($"HIT {hit.point}");
+            if (hit.collider.CompareTag("Zombie"))
+            {
+                fleshEffect.transform.position = hit.point;
+                fleshEffect.transform.forward = hit.normal;
+                fleshEffect.Emit(1);
 
-            hitEffect.transform.position = hit.point;
-            hitEffect.transform.forward = hit.normal;
-            hitEffect.Emit(1);
+                hit.collider.GetComponent<hr_ZombieManager>().TakeDamage();
+            }
+            else
+            {
+                hitEffect.transform.position = hit.point;
+                hitEffect.transform.forward = hit.normal;
+                hitEffect.Emit(1);
+            }
 
             tracer.transform.position = hit.point;
         }
