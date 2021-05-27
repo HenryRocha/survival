@@ -13,6 +13,7 @@ public class hr_ZombieManager : MonoBehaviour
     private GameObject player;
     private NavMeshAgent agent;
     private Renderer renderer;
+    
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -63,5 +64,6 @@ public class hr_ZombieManager : MonoBehaviour
     public void OnAware()
     {
         isAware = true;
+        FindObjectOfType<AudioManager>().PlayScaredShout();
     }
 }

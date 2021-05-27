@@ -53,6 +53,23 @@ MonoBehaviour:
     source: {fileID: 0}
     audioMixerGroup: {fileID: 7997175742603399805, guid: 3a777398c50a74caa8b007dad3965909,
       type: 2}
+  scaredShoutsSounds:
+  - name: shout1
+    clip: {fileID: 8300000, guid: 3ff457304ec2448989d86edf8c3fc013, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    audioMixerGroup: {fileID: -8627435844921118498, guid: 3a777398c50a74caa8b007dad3965909,
+      type: 2}
+  - name: shout2
+    clip: {fileID: 8300000, guid: dbafb8e80a2d449b4a624ceb9e3054c3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    audioMixerGroup: {fileID: -8627435844921118498, guid: 3a777398c50a74caa8b007dad3965909,
+      type: 2}
 --- !u!114 &5753781248174230822
 MonoBehaviour:
   m_ObjectHideFlags: 0
