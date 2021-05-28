@@ -10,11 +10,13 @@ public class hr_ZombieManager : MonoBehaviour
     [SerializeField] private float viewDistance = 10.0f;
     [SerializeField] private LayerMask allMasks;
     [SerializeField] private int health = 100;
+    [SerializeField] private float wanderRadius = 7.0f;
 
     private GameObject player;
     private NavMeshAgent agent;
     private Renderer renderer;
 
+    private Vector3 wanderPoint = Vector3.zero;
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -25,6 +27,7 @@ public class hr_ZombieManager : MonoBehaviour
         agent = this.GetComponent<NavMeshAgent>();
         renderer = this.GetComponent<Renderer>();
         player = GameObject.Find("Player");
+        wanderPoint = RandomWanderPoint();
     }
 
     /// <summary>
@@ -40,6 +43,7 @@ public class hr_ZombieManager : MonoBehaviour
         else
         {
             SearchForPlayer();
+            Wander();
             renderer.material.color = Color.blue;
         }
     }
@@ -75,6 +79,26 @@ public class hr_ZombieManager : MonoBehaviour
         if (health <= 0)
         {
             Destroy(this.gameObject);
+        }
+    }
+
+    public Vector3 RandomWanderPoint()
+    {
+        Vector3 randomPoint = (Random.insideUnitSphere * wanderRadius) + transform.position;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(randomPoint, out hit, wanderRadius, allMasks);
+        return new Vector3(hit.position.x, transform.position.y, hit.position.z);
+    }
+
+    public void Wander()
+    {
+        if (Vector3.Distance(transform.position, wanderPoint) < 1.5f)
+        {
+            wanderPoint = RandomWanderPoint();
+        }
+        else
+        {
+            agent.SetDestination(wanderPoint);
         }
     }
 }
